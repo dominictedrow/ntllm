@@ -37,7 +37,7 @@ Design is locked (v2, 2026-11-18). Read `docs/DESIGN.md` and `docs/BUILD_BRIEF.m
 ## Environment
 - Conda env `ntllm` (Python 3.12.16, matches the Kaggle image), `~/miniconda3/envs/ntllm`. Pinned packages in `requirements.txt`; Kaggle CLI 2.2.5 (+`six`, a missing dep). Credentials in `~/.kaggle/kaggle.json`.
 - Mac (dev): torch 2.15.0 with MPS, for smoke tests only. Windows box (training, 24/7): RTX 5070 12 GB, i5, 16 GB RAM; install the cu128 torch wheel there.
-- Repo lives on an external drive: macOS writes `._*` files; they are gitignored.
+- Repo lives on an external FAT32 drive: macOS writes `._*` AppleDouble files everywhere, including inside `.git/` (which breaks git with "non-monotonic index"). They are gitignored; before git operations run `find . -name '._*' -delete` (safe: git never creates `._` names).
 
 ## Git
 - Remote: https://github.com/dominictedrow/ntllm (public). Never commit `data/`, weights, or `kaggle.json`. Follow Dom's global git checklist.
