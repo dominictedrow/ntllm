@@ -1,0 +1,17 @@
+{
+  "id": "dominictedrow/ntllm-encoder-submit",
+  "title": "ntllm-encoder-submit",
+  "code_file": "kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "dataset_sources": [
+    "dominictedrow/ntllm-encoder-v1"
+  ],
+  "competition_sources": [
+    "name-that-llm"
+  ],
+  "kernel_sources": []
+}
