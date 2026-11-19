@@ -1,0 +1,39 @@
+# Competition data (Kaggle rules: don't redistribute)
+/data/
+*.csv.zip
+*.parquet
+
+# Model weights / checkpoints / run outputs
+checkpoints/
+runs/
+logs/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.npy
+*.npz
+*.joblib
+*.pkl
+
+# Secrets
+kaggle.json
+credentials.json
+.env
+*.key
+
+# Python / tooling
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+*.egg-info/
+.pytest_cache/
+.DS_Store
+.gstack/
+graphify-out/
+
+# macOS AppleDouble files created on the external drive
+._*

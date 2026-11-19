@@ -1,0 +1,32 @@
+# ntllm env (Python 3.12, matches the Kaggle image). Verified on Mac arm64, 2026-11-18.
+# Windows RTX 5070 box: install torch from the CUDA index first, e.g.
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cu128
+# then `pip install -r requirements.txt`.
+
+# Kaggle CLI (six is a missing dep of kaggle 2.2.5)
+kaggle==2.2.5
+six==1.17.0
+
+# Data
+numpy==2.5.5
+pandas==3.1.1
+pyarrow==26.0.1          # submission.parquet
+scipy==1.18.1
+
+# Classical models: TF-IDF, Naive Bayes, SVM (gzip + kNN uses stdlib gzip)
+scikit-learn==1.9.1
+
+# Encoder
+torch==2.15.0
+transformers==5.23.0
+tokenizers==0.23.3
+accelerate==1.16.0
+safetensors==0.8.0
+
+# Tooling
+matplotlib==3.11.2
+tqdm==4.70.1
+PyYAML==6.0.3
+ipykernel==7.4.0
+jupytext==1.19.6
+pytest==9.2.0
