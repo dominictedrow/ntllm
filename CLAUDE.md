@@ -25,6 +25,9 @@ Design is locked (v2, 2026-11-18). Read `docs/DESIGN.md` and `docs/BUILD_BRIEF.m
 - Three splits of train.csv, all grouped by `prompt_id`: train / val / local test. Saved once to disk and reused. Assert no prompt crosses splits.
 - Every fitted thing (TF-IDF vocab, kNN index, encoder, meta-model) sees only the train split. Meta-model trains on val predictions, scored once on local test. Kaggle's test.csv is only for submissions.
 - Synthetic data goes into the train split only.
+- **Splits v1 (made 2026-11-18, Chunk 1):** `data/splits/v1/` (assignments.csv + manifest.json with sha256 of train.csv and the split file). 60/20/20 by prompt, seed 42: train 90 prompts / 1,620 rows, val 30 / 540, local test 30 / 539. Every split is label-balanced (90 / 30 / 29–30 per label) because every prompt has all 18 models (except p002, missing one).
+- `fold` column: 4 prompt-grouped folds inside train (k-fold tuning of single models) and inside val (meta-model selection, so local test is touched once); local test has fold = -1.
+- Load data only through `ntllm.data.splits.load_split("train"|"val"|"test", fold=None)`; it re-checks hashes and prompt separation. Score only through `ntllm.data.scoring.score/report/save`. Never regenerate v1; make v2 with `scripts/make_splits.py --version v2` (a design-level change).
 
 ## Repo layout
 - `ntllm/` library code: `data/` (loading, splits, scoring), `features/`, `models/`, `kaggle/` (notebook + submission).
