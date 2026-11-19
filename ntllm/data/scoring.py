@@ -30,8 +30,12 @@ def score(y_true, y_pred, labels=LABELS) -> dict:
     support = cm.sum(axis=1)
     present = support > 0
     recall = (np.diag(cm.values) / support.where(present)).rename("recall")
+    predicted = cm.sum(axis=0)
+    # Precision of a label never predicted counts as 0 (it found none of its rows).
+    precision = pd.Series(np.diag(cm.values) / predicted.replace(0, np.nan), index=cm.index).fillna(0.0)
     return {
         "balanced_accuracy": float(recall[present].mean()),
+        "macro_precision": float(precision[present].mean()),
         "accuracy": float(np.trace(cm.values) / cm.values.sum()),
         "per_label_recall": recall[present].to_dict(),
         "support": support[present].astype(int).to_dict(),
@@ -43,13 +47,15 @@ def report(result: dict, title: str = "") -> str:
     """Human-readable summary: headline scores, per-label recall (worst first), top confusions."""
     lines = [f"== {title}" if title else "=="]
     lines.append(f"balanced_accuracy {result['balanced_accuracy']:.4f}   "
+                 f"macro_precision {result['macro_precision']:.4f}   "
                  f"accuracy {result['accuracy']:.4f}")
     lines.append("per-label recall (worst first):")
     for label, r in sorted(result["per_label_recall"].items(), key=lambda kv: kv[1]):
         lines.append(f"  {label:<24} {r:.3f}  (n={result['support'][label]})")
-    cm = result["confusion"].copy()
-    np.fill_diagonal(cm.values, 0)
-    pairs = cm.stack()
+    off = result["confusion"].to_numpy(copy=True)  # pandas 3: .values is read-only
+    np.fill_diagonal(off, 0)
+    pairs = pd.DataFrame(off, index=result["confusion"].index,
+                         columns=result["confusion"].columns).stack()
     pairs = pairs[pairs > 0].sort_values(ascending=False).head(10)
     if len(pairs):
         lines.append("top confusions (true -> pred):")

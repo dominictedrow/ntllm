@@ -1,0 +1,15 @@
+{
+  "id": "dominictedrow/ntllm-gzip-knn-submit",
+  "title": "ntllm-gzip-knn-submit",
+  "code_file": "kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "dataset_sources": [],
+  "competition_sources": [
+    "name-that-llm"
+  ],
+  "kernel_sources": []
+}

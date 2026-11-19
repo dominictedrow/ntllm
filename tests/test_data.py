@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 from ntllm.data.load import LABELS, load_train
-from ntllm.data.scoring import score
+from ntllm.data.scoring import report, score
 from ntllm.data.splits import (SPLIT_NAMES, assert_prompt_disjoint, load_assignments,
                                load_split, make_splits)
 from ntllm.paths import SPLITS
@@ -47,6 +47,15 @@ def test_score_worked_example():
     assert r["balanced_accuracy"] == pytest.approx(0.5)
     assert r["per_label_recall"]["claude-opus-5"] == 0
     assert r["confusion"].loc["claude-opus-5", "gpt-5.5"] == 50
+
+
+def test_report_and_precision():
+    y_true = ["gpt-5.5", "gpt-5.5", "claude-opus-5", "claude-opus-5"]
+    y_pred = ["gpt-5.5", "claude-opus-5", "claude-opus-5", "claude-opus-5"]
+    r = score(y_true, y_pred)
+    assert r["macro_precision"] == pytest.approx((1.0 + 2 / 3) / 2)
+    text = report(r, "t")
+    assert "gpt-5.5" in text and "-> claude-opus-5" in text
 
 
 def test_score_matches_sklearn():
