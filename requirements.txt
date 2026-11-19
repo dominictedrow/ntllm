@@ -1,6 +1,6 @@
 # ntllm env (Python 3.12, matches the Kaggle image). Verified on Mac arm64, 2026-11-18.
 # Windows RTX 5070 box: install torch from the CUDA index first, e.g.
-#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cu128
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cu132   (cu128 stops at 2.11)
 # then `pip install -r requirements.txt`.
 
 # Kaggle CLI (six is a missing dep of kaggle 2.2.5)
